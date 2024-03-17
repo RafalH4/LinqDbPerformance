@@ -1,0 +1,6 @@
+@LinqDbPerformance_HostAddress = http://localhost:5077
+
+GET {{LinqDbPerformance_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
