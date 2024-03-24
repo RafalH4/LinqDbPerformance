@@ -26,3 +26,34 @@ BEGIN
 END;
 ```
 
+Generate Loans
+```
+DECLARE @reader_count INT;
+DECLARE @book_count INT;
+DECLARE @reader_id INT;
+DECLARE @book_id INT;
+DECLARE @i INT = 1;
+DECLARE @loan_count INT = 200000; -- Liczba wypożyczeń do wygenerowania
+
+SELECT @reader_count = COUNT(*) FROM Readers;
+SELECT @book_count = COUNT(*) FROM Books;
+
+WHILE @i <= @loan_count
+BEGIN
+    SET @reader_id = (1 + CAST(RAND() * @reader_count AS INT));
+    SET @book_id = (1 + CAST(RAND() * @book_count AS INT));
+    
+    DECLARE @random_days INT;
+    SET @random_days = (CAST(RAND() * 365 AS INT));
+    DECLARE @issue_date DATE = DATEADD(day, -@random_days, GETDATE());
+    
+    SET @random_days = (1 + CAST(RAND() * 30 AS INT));
+    DECLARE @due_date DATE = DATEADD(day, @random_days, @issue_date);
+
+    INSERT INTO Loans (BookId, ReaderId, IssueDate, DueDate)
+    VALUES
+    (@book_id, @reader_id, @issue_date, @due_date);
+
+    SET @i = @i + 1;
+END;
+```
