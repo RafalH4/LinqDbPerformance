@@ -11,3 +11,18 @@ BEGIN
     SET @i = @i + 1;
 END;
 ```
+
+Generate Readers:
+```
+DECLARE @i INT = 1;
+DECLARE @reader_count INT = 50000; -- Liczba czytelników do wygenerowania
+
+WHILE @i <= @reader_count
+BEGIN
+    INSERT INTO Readers (Name, Email, MembershipStartDate)
+    VALUES 
+    ('Name ' + CAST(@i AS NVARCHAR), 'email' + CAST(@i AS NVARCHAR) + '@example.com', DATEADD(day, -@i, GETDATE()));
+    SET @i = @i + 1;
+END;
+```
+
